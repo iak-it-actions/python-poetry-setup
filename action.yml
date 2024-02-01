@@ -1,0 +1,28 @@
+name: "Setup poetry environment"
+description: "Setup git then python and then poetry environment"
+
+inputs:
+  python-version:
+    description: "python version"
+    required: false
+    default: "3.12"
+
+runs:
+  using: composite
+
+  steps:
+    - name: Checkout [${{ github.repository }}]
+      uses: actions/checkout@v4
+
+    - name: set up python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: install poetry
+      run: pip install poetry
+      shell: bash
+
+    - name: install dependencies
+      run: poetry install
+      shell: bash
